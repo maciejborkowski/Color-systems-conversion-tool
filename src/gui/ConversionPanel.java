@@ -19,14 +19,21 @@ import engine.Converter;
 @SuppressWarnings("serial")
 public class ConversionPanel extends JPanel {
 	private JLabel rgb = new JLabel("RGB");
+	private JLabel redLabel = new JLabel("red");
 	private JTextField red = new JTextField();
+	private JLabel greenLabel = new JLabel("green");
 	private JTextField green = new JTextField();
+	private JLabel blueLabel = new JLabel("blue");
 	private JTextField blue = new JTextField();
 
 	private JLabel cmyk = new JLabel("CMYK");
+	private JLabel cyanLabel = new JLabel("cyan");
 	private JTextField cyan = new JTextField();
+	private JLabel magentaLabel = new JLabel("magenta");
 	private JTextField magenta = new JTextField();
+	private JLabel yellowLabel = new JLabel("yellow");
 	private JTextField yellow = new JTextField();
+	private JLabel keyLabel = new JLabel("key");
 	private JTextField key = new JTextField();
 
 	public ConversionPanel() {
@@ -35,13 +42,20 @@ public class ConversionPanel extends JPanel {
 
 		GridBagConstraints constraints = new GridBagConstraints();
 		addComponent(rgb, constraints);
+		addComponent(redLabel, constraints);
 		addComponent(red, constraints);
+		addComponent(greenLabel, constraints);
 		addComponent(green, constraints);
+		addComponent(blueLabel, constraints);
 		addComponent(blue, constraints);
 		addComponent(cmyk, constraints);
+		addComponent(cyanLabel, constraints);
 		addComponent(cyan, constraints);
+		addComponent(magentaLabel, constraints);
 		addComponent(magenta, constraints);
+		addComponent(yellowLabel, constraints);
 		addComponent(yellow, constraints);
+		addComponent(keyLabel, constraints);
 		addComponent(key, constraints);
 
 		RGBListener rgbListener = new RGBListener();
@@ -90,6 +104,12 @@ public class ConversionPanel extends JPanel {
 			magenta.setText(String.valueOf(buff[1] & 0xFF));
 			yellow.setText(String.valueOf(buff[2] & 0xFF));
 			key.setText(String.valueOf(buff[3] & 0xFF));
+			
+//			double cmyk[] = Converter.rgb2cmyk(rgbValues[0], rgbValues[1], rgbValues[2]);
+//			cyan.setText(String.valueOf(cmyk[0]));
+//			magenta.setText(String.valueOf(cmyk[1]));
+//			yellow.setText(String.valueOf(cmyk[2]));
+//			key.setText(String.valueOf(cmyk[3]));
 		}
 	}
 
