@@ -4,15 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import engine.Engine;
 
 public class Application {
 	private final static String WINDOW_LABEL = "Color Systems Conversion Tool";
 
 	private JFrame frame;
-	private JPanel panel;
+	private ConversionPanel panel;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -39,9 +36,8 @@ public class Application {
 		frame = new JFrame(WINDOW_LABEL);
 		frame.setBounds(0, 0, 800, 680);
 		frame.getContentPane().setLayout(new BorderLayout());
-		panel = new JPanel();
+		panel = new ConversionPanel();
 		frame.add(panel);
-		Engine e = new Engine();
 	}
 
 }
