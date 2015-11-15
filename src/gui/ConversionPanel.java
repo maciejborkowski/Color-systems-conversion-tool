@@ -35,10 +35,9 @@ public class ConversionPanel extends JPanel {
 	private JTextField saturation = new JTextField();
 	private JTextField value = new JTextField();
 
-	private final ColorListenerManager listenerManager = new ColorListenerManager();
 	private final NumberFormat formatter = new DecimalFormat("#0.00");
 
-	public ConversionPanel() {
+	public ConversionPanel(ColorListenerManager colorlistenerManager) {
 		setLayout(new GridBagLayout());
 
 		GridBagConstraints constraints = new GridBagConstraints();
@@ -70,24 +69,30 @@ public class ConversionPanel extends JPanel {
 		addComponent(saturation, constraints);
 		addComponent(value, constraints);
 
-		RGBListener rgbListener = new RGBListener(listenerManager);
+		RGBListener rgbListener = new RGBListener(colorlistenerManager);
 		red.getDocument().addDocumentListener(rgbListener);
 		green.getDocument().addDocumentListener(rgbListener);
 		blue.getDocument().addDocumentListener(rgbListener);
 
-		CMYKListener cmykListener = new CMYKListener(listenerManager);
+		CMYKListener cmykListener = new CMYKListener(colorlistenerManager);
 		cyan.getDocument().addDocumentListener(cmykListener);
 		magenta.getDocument().addDocumentListener(cmykListener);
 		yellow.getDocument().addDocumentListener(cmykListener);
 		key.getDocument().addDocumentListener(cmykListener);
 
-		GrayscaleListener grayscaleListener = new GrayscaleListener(listenerManager);
+		GrayscaleListener grayscaleListener = new GrayscaleListener(colorlistenerManager);
 		gray.getDocument().addDocumentListener(grayscaleListener);
 
-		HSVListener hsvListener = new HSVListener(listenerManager);
+		HSVListener hsvListener = new HSVListener(colorlistenerManager);
 		hue.getDocument().addDocumentListener(hsvListener);
 		saturation.getDocument().addDocumentListener(hsvListener);
 		value.getDocument().addDocumentListener(hsvListener);
+	}
+
+	public void setRGB(int red, int green, int blue) {
+		this.red.setText(Integer.toString(red));
+		this.green.setText(Integer.toString(green));
+		this.blue.setText(Integer.toString(blue));
 	}
 
 	private void addComponent(Component field, GridBagConstraints constraints) {
@@ -163,9 +168,7 @@ public class ConversionPanel extends JPanel {
 			int yellowValue = Integer.parseInt(yellow.getText());
 			int keyValue = Integer.parseInt(key.getText());
 			int[] rgb = Converter.cmyk2rgb(cyanValue, magentaValue, yellowValue, keyValue);
-			red.setText(String.valueOf(rgb[0]));
-			green.setText(String.valueOf(rgb[1]));
-			blue.setText(String.valueOf(rgb[2]));
+			setRGB(rgb[0], rgb[1], rgb[2]);
 		}
 	}
 
@@ -180,12 +183,9 @@ public class ConversionPanel extends JPanel {
 			if (gray.getText().isEmpty()) {
 				return;
 			}
-
 			int gray = Integer.parseInt(cyan.getText());
 			int[] rgb = Converter.grayscale2rgb(gray);
-			red.setText(String.valueOf(rgb[0]));
-			green.setText(String.valueOf(rgb[1]));
-			blue.setText(String.valueOf(rgb[2]));
+			setRGB(rgb[0], rgb[1], rgb[2]);
 		}
 	}
 

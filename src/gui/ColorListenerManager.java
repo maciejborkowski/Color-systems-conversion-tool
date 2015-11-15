@@ -6,7 +6,7 @@ import java.util.List;
 public class ColorListenerManager {
 	private boolean changing = false;
 	ColorChangeListener mainListener;
-	List<ColorChangeListener> otherlisteners = new ArrayList<>();;
+	List<ColorChangeListener> otherlisteners = new ArrayList<>();
 
 	public boolean isChanging() {
 		return changing;
