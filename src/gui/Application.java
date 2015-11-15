@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
+import org.opencv.core.Core;
+
 public class Application {
 	private final static String WINDOW_LABEL = "Color Systems Conversion Tool";
 
@@ -12,6 +14,7 @@ public class Application {
 	private ConversionPanel panel;
 
 	public static void main(String[] args) {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -37,7 +40,7 @@ public class Application {
 		frame.setBounds(0, 0, 800, 680);
 		frame.getContentPane().setLayout(new BorderLayout());
 		panel = new ConversionPanel();
-		frame.add(panel);
+		frame.add(panel, BorderLayout.LINE_START);
 	}
 
 }

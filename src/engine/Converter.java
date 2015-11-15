@@ -1,18 +1,11 @@
 package engine;
 
-import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 
 public class Converter {
 
-	static {
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-	}
-
 	public static Mat convertRGBtoCMYK(Mat rgb) {
-		// Mat mat = Mat.eye(3, 3, CvType.CV_8UC1);
-		// System.out.println("mat = " + mat.dump());
 		Mat cmyk = new Mat(rgb.rows(), rgb.cols(), CvType.CV_8UC4);
 		byte rgbBuff[] = new byte[(int) (rgb.total() * rgb.channels())];
 		rgb.get(0, 0, rgbBuff);
@@ -42,7 +35,7 @@ public class Converter {
 		double blueDouble = (double) blue / 255;
 
 		double K = 1 - Math.max(redDouble, Math.max(greenDouble, blueDouble));
-		double divider = Math.max(1-K, 0.0001);
+		double divider = Math.max(1 - K, 0.0001);
 		double C = (1 - redDouble - K) / divider;
 		double M = (1 - greenDouble - K) / divider;
 		double Y = (1 - blueDouble - K) / divider;

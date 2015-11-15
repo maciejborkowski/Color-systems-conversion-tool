@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -10,7 +11,6 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 
@@ -19,43 +19,34 @@ import engine.Converter;
 @SuppressWarnings("serial")
 public class ConversionPanel extends JPanel {
 	private JLabel rgb = new JLabel("RGB");
-	private JLabel redLabel = new JLabel("red");
 	private JTextField red = new JTextField();
-	private JLabel greenLabel = new JLabel("green");
 	private JTextField green = new JTextField();
-	private JLabel blueLabel = new JLabel("blue");
 	private JTextField blue = new JTextField();
 
 	private JLabel cmyk = new JLabel("CMYK");
-	private JLabel cyanLabel = new JLabel("cyan");
 	private JTextField cyan = new JTextField();
-	private JLabel magentaLabel = new JLabel("magenta");
 	private JTextField magenta = new JTextField();
-	private JLabel yellowLabel = new JLabel("yellow");
 	private JTextField yellow = new JTextField();
-	private JLabel keyLabel = new JLabel("key");
 	private JTextField key = new JTextField();
 
 	public ConversionPanel() {
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		setLayout(new GridBagLayout());
 
 		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.gridy = 0;
+		constraints.gridx = 0;
 		addComponent(rgb, constraints);
-		addComponent(redLabel, constraints);
+		newLine(constraints);
 		addComponent(red, constraints);
-		addComponent(greenLabel, constraints);
 		addComponent(green, constraints);
-		addComponent(blueLabel, constraints);
 		addComponent(blue, constraints);
+
+		newLine(constraints);
 		addComponent(cmyk, constraints);
-		addComponent(cyanLabel, constraints);
+		newLine(constraints);
 		addComponent(cyan, constraints);
-		addComponent(magentaLabel, constraints);
 		addComponent(magenta, constraints);
-		addComponent(yellowLabel, constraints);
 		addComponent(yellow, constraints);
-		addComponent(keyLabel, constraints);
 		addComponent(key, constraints);
 
 		RGBListener rgbListener = new RGBListener();
@@ -65,13 +56,17 @@ public class ConversionPanel extends JPanel {
 	}
 
 	private void addComponent(Component field, GridBagConstraints constraints) {
-		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.fill = GridBagConstraints.NONE;
 		constraints.weightx = 0.1;
-		constraints.gridx = 0;
-		constraints.gridy++;
 		constraints.weightx = 0.9;
-		constraints.gridx = 1;
+		field.setPreferredSize(new Dimension(50, 20));
 		add(field, constraints);
+		constraints.gridx++;
+	}
+
+	private void newLine(GridBagConstraints constraints) {
+		constraints.gridy++;
+		constraints.gridx = 0;
 	}
 
 	private class RGBListener implements DocumentListener {
@@ -104,12 +99,13 @@ public class ConversionPanel extends JPanel {
 			magenta.setText(String.valueOf(buff[1] & 0xFF));
 			yellow.setText(String.valueOf(buff[2] & 0xFF));
 			key.setText(String.valueOf(buff[3] & 0xFF));
-			
-//			double cmyk[] = Converter.rgb2cmyk(rgbValues[0], rgbValues[1], rgbValues[2]);
-//			cyan.setText(String.valueOf(cmyk[0]));
-//			magenta.setText(String.valueOf(cmyk[1]));
-//			yellow.setText(String.valueOf(cmyk[2]));
-//			key.setText(String.valueOf(cmyk[3]));
+
+			// double cmyk[] = Converter.rgb2cmyk(rgbValues[0], rgbValues[1],
+			// rgbValues[2]);
+			// cyan.setText(String.valueOf(cmyk[0]));
+			// magenta.setText(String.valueOf(cmyk[1]));
+			// yellow.setText(String.valueOf(cmyk[2]));
+			// key.setText(String.valueOf(cmyk[3]));
 		}
 	}
 
