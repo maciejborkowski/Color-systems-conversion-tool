@@ -30,15 +30,15 @@ public class Converter {
 	}
 
 	public static double[] rgb2cmyk(int red, int green, int blue) {
-		double redDouble = (double) red / 255;
-		double greenDouble = (double) green / 255;
-		double blueDouble = (double) blue / 255;
+		double scaledRed = (double) red / 255;
+		double scaledGreen = (double) green / 255;
+		double scaledBlue = (double) blue / 255;
 
-		double K = 1 - Math.max(redDouble, Math.max(greenDouble, blueDouble));
+		double K = 1 - maxOfThree(scaledRed, scaledGreen, scaledBlue);
 		double divider = Math.max(1 - K, 0.0001);
-		double C = (1 - redDouble - K) / divider;
-		double M = (1 - greenDouble - K) / divider;
-		double Y = (1 - blueDouble - K) / divider;
+		double C = (1 - scaledRed - K) / divider;
+		double M = (1 - scaledGreen - K) / divider;
+		double Y = (1 - scaledBlue - K) / divider;
 
 		return new double[] { C, M, Y, K };
 	}
@@ -60,4 +60,48 @@ public class Converter {
 	public static int[] grayscale2rgb(int gray) {
 		return new int[] { gray, gray, gray };
 	}
+
+	public static double[] rgb2hsv(int red, int green, int blue) {
+		double scaledRed = (double) red / 255;
+		double scaledGreen = (double) green / 255;
+		double scaledBlue = (double) blue / 255;
+
+		double Cmax = maxOfThree(scaledRed, scaledGreen, scaledBlue);
+		double Cmin = minOfThree(scaledRed, scaledGreen, scaledBlue);
+		double delta = Cmax - Cmin;
+
+		double hue = -1;
+
+		if (delta == 0) {
+			hue = 0;
+		} else if (Cmax == scaledRed) {
+			hue = 60 * (((scaledGreen - scaledBlue) / delta) % 6);
+		} else if (Cmax == scaledGreen) {
+			hue = 60 * (((scaledBlue - scaledRed) / delta) + 2);
+		} else if (Cmax == scaledBlue) {
+			hue = 60 * (((scaledRed - scaledGreen) / delta) + 4);
+		}
+
+		hue = (hue + 360) % 360;
+
+		double saturation = (Cmax == 0) ? 0 : delta / Cmax;
+		double value = Cmax;
+
+		return new double[] { hue, saturation * 100, value * 100 };
+	}
+
+	public static int[] hsv2rgb(double hue, double saturation, double value) {
+		double c = value * saturation;
+
+		return new int[] {};
+	}
+
+	private static double maxOfThree(double first, double second, double third) {
+		return Math.max(first, Math.max(second, third));
+	}
+
+	private static double minOfThree(double first, double second, double third) {
+		return Math.min(first, Math.min(second, third));
+	}
+
 }
