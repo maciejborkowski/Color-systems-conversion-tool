@@ -91,9 +91,59 @@ public class Converter {
 	}
 
 	public static int[] hsv2rgb(double hue, double saturation, double value) {
-		double c = value * saturation;
+		hue = hue % 360;
+		
+		saturation /= 100;
+		value /= 100;
 
-		return new int[] {};
+		double c = value * saturation;
+		double x = c * (1 - Math.abs((hue / 60) % 2 - 1));
+		double m = value - c;
+
+		double scaledRGB[];
+		if (0 <= hue && hue < 60) {
+			scaledRGB = new double[] { c, x, 0 };
+		} else if (60 <= hue && hue < 120) {
+			scaledRGB = new double[] { x, c, 0 };
+		} else if (120 <= hue && hue < 180) {
+			scaledRGB = new double[] { 0, c, x };
+		} else if (180 <= hue && hue < 240) {
+			scaledRGB = new double[] { 0, x, c };
+		} else if (240 <= hue && hue < 300) {
+			scaledRGB = new double[] { x, 0, c };
+		} else { // if (300 <= hue && hue < 360)
+			scaledRGB = new double[] { c, 0, x };
+		}
+
+		int red = (int) ((scaledRGB[0] + m) * 255);
+		int green = (int) ((scaledRGB[1] + m) * 255);
+		int blue = (int) ((scaledRGB[2] + m) * 255);
+
+		return new int[] { red, green, blue };
+	}
+
+	public static boolean rgb2binary(int red, int green, int blue) {
+		return false;
+	}
+
+	public static int[] binary2rgb(boolean binary) {
+		return null;
+	}
+
+	public static double[] rgb2yuv() {
+		return null;
+	}
+
+	public static int[] yuv2rgb() {
+		return null;
+	}
+
+	public static double[] rgb2yiq() {
+		return null;
+	}
+
+	public static int[] yiq2rgb() {
+		return null;
 	}
 
 	private static double maxOfThree(double first, double second, double third) {
