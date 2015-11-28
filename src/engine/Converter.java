@@ -92,7 +92,7 @@ public class Converter {
 
 	public static int[] hsv2rgb(double hue, double saturation, double value) {
 		hue = hue % 360;
-		
+
 		saturation /= 100;
 		value /= 100;
 
@@ -130,20 +130,36 @@ public class Converter {
 		return null;
 	}
 
-	public static double[] rgb2yuv() {
-		return null;
+	public static double[] rgb2yuv(int red, int green, int blue) {
+		double y = (0.299 * red + 0.587 * green + 0.114 * blue) / 255;
+		double u = (-0.146 * red - 0.288 * green - 0.434 * blue) / 255;
+		double v = (0.617 * red - 0.517 * green + 0.100 * blue) / 255;
+
+		return new double[] { y, u, v };
 	}
 
-	public static int[] yuv2rgb() {
-		return null;
+	public static int[] yuv2rgb(double y, double u, double v) {
+		int r = (int) ((1.4245 * y + 0.6619 * u + 1.2487 * v) * 255);
+		int g = (int) ((1.4245 * y + 0.2669 * u - 0.4655 * v) * 255);
+		int b = (int) ((-1.4245 * y - 2.7039 * u - 0.1111 * v) * 255);
+
+		return new int[] { r, g, b };
 	}
 
-	public static double[] rgb2yiq() {
-		return null;
+	public static double[] rgb2yiq(int red, int green, int blue) {
+		double y = (0.299 * red + 0.587 * green + 0.114 * blue) / 255;
+		double i = (-0.168 * red - 0.257 * green - 0.321 * blue) / 255;
+		double q = (0.212 * red - 0.528 * green + 0.311 * blue) / 255;
+
+		return new double[] { y, i, q };
 	}
 
-	public static int[] yiq2rgb() {
-		return null;
+	public static int[] yiq2rgb(double y, double i, double q) {
+		int r = (int) ((4.9814 * y + 4.8482 * i + 3.1782 * q) * 255);
+		int g = (int) ((0.3156 * y - 0.9397 * i - 1.0856 * q) * 255);
+		int b = (int) ((-2.8598 * y - 4.9003 * i - 0.7942 * q) * 255);
+
+		return new int[] { r, g, b };
 	}
 
 	private static double maxOfThree(double first, double second, double third) {
