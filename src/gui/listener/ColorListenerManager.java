@@ -1,4 +1,4 @@
-package gui;
+package gui.listener;
 
 import java.util.ArrayList;
 import java.util.List;

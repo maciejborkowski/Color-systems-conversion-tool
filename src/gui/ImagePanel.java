@@ -3,13 +3,14 @@ package gui;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import gui.listener.ClickListener;
+
 @SuppressWarnings("serial")
-public class ImagePanel extends JPanel implements MouseListener {
+public class ImagePanel extends JPanel implements ClickListener {
 	private ConversionPanel conversionPanel;
 
 	public ImagePanel(ConversionPanel conversionPanel) {
@@ -49,19 +50,4 @@ public class ImagePanel extends JPanel implements MouseListener {
 		}
 	}
 
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-	}
 }

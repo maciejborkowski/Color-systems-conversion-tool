@@ -13,6 +13,8 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 
 import engine.Converter;
+import gui.listener.ColorChangeListener;
+import gui.listener.ColorListenerManager;
 
 @SuppressWarnings("serial")
 public class ConversionPanel extends JPanel {
@@ -98,7 +100,7 @@ public class ConversionPanel extends JPanel {
 	private void addComponent(Component field, GridBagConstraints constraints) {
 		constraints.fill = GridBagConstraints.NONE;
 		constraints.weightx = 0.9;
-		field.setPreferredSize(new Dimension(40, 20));
+		field.setPreferredSize(new Dimension(50, 20));
 		add(field, constraints);
 		constraints.gridx++;
 	}
@@ -140,8 +142,11 @@ public class ConversionPanel extends JPanel {
 			gray.setText(String.valueOf(grayValue));
 		}
 
-		private void changeHSV(int redValue, int greenValue, int blueValue) {
-
+		private void changeHSV(int red, int green, int blue) {
+			double[] hsv = Converter.rgb2hsv(red, green, blue);
+			hue.setText(formatter.format(hsv[0]));
+			saturation.setText(formatter.format(hsv[1]));
+			value.setText(formatter.format(hsv[2]));
 		}
 
 		@Override
@@ -163,10 +168,10 @@ public class ConversionPanel extends JPanel {
 				return;
 			}
 
-			int cyanValue = Integer.parseInt(cyan.getText());
-			int magentaValue = Integer.parseInt(magenta.getText());
-			int yellowValue = Integer.parseInt(yellow.getText());
-			int keyValue = Integer.parseInt(key.getText());
+			double cyanValue = Double.parseDouble(cyan.getText());
+			double magentaValue = Double.parseDouble(magenta.getText());
+			double yellowValue = Double.parseDouble(yellow.getText());
+			double keyValue = Double.parseDouble(key.getText());
 			int[] rgb = Converter.cmyk2rgb(cyanValue, magentaValue, yellowValue, keyValue);
 			setRGB(rgb[0], rgb[1], rgb[2]);
 		}
@@ -197,7 +202,15 @@ public class ConversionPanel extends JPanel {
 
 		@Override
 		protected void stateChanged(DocumentEvent e) {
+			if (hue.getText().isEmpty() || saturation.getText().isEmpty() || value.getText().isEmpty()) {
+				return;
+			}
 
+			double hueValue = Double.parseDouble(hue.getText());
+			double saturationValue = Double.parseDouble(saturation.getText());
+			double valueValue = Double.parseDouble(value.getText());
+			int[] rgb = Converter.hsv2rgb(hueValue, saturationValue, valueValue);
+			setRGB(rgb[0], rgb[1], rgb[2]);
 		}
 	}
 

@@ -1,4 +1,4 @@
-package gui;
+package gui.listener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
+
+import gui.ImagePanel;
 
 public class ImageChooserListener implements ActionListener {
 	private JFileChooser fileChooser = new JFileChooser();

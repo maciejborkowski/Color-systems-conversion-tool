@@ -1,4 +1,4 @@
-package gui;
+package gui.listener;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
