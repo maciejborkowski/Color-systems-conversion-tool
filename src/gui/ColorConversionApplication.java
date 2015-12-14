@@ -67,8 +67,8 @@ public class ColorConversionApplication {
 		conversionPanel = new ConversionPanel(colorListenerManager);
 		imagePanel = new ImagePanel(conversionPanel);
 		hsvPickerPanel = new HSVPickerPanel(conversionPanel);
-		frame.add(conversionPanel, BorderLayout.LINE_START);
-		frame.add(imagePanel, BorderLayout.CENTER);
+		frame.add(conversionPanel, BorderLayout.WEST);
+		frame.add(imagePanel, BorderLayout.EAST);
 		frame.add(hsvPickerPanel, BorderLayout.CENTER);
 	}
 

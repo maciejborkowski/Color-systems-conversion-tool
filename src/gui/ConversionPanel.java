@@ -157,16 +157,11 @@ public class ConversionPanel extends JPanel {
 
 		@Override
 		protected void stateChanged(DocumentEvent e) {
-			if (red.getText().isEmpty() || green.getText().isEmpty() || blue.getText().isEmpty()) {
-				return;
-			}
 			try {
 				int redValue = Integer.parseInt(red.getText());
 				int greenValue = Integer.parseInt(green.getText());
 				int blueValue = Integer.parseInt(blue.getText());
-				validateBetween(redValue, 0, 255);
-				validateBetween(greenValue, 0, 255);
-				validateBetween(blueValue, 0, 255);
+				validateBetween(0, 255, redValue, greenValue, blueValue);
 				changeIndicator(redValue, greenValue, blueValue);
 				changeCMYK(redValue, greenValue, blueValue);
 				changeGrayscale(redValue, greenValue, blueValue);
@@ -215,19 +210,12 @@ public class ConversionPanel extends JPanel {
 
 		@Override
 		protected void stateChanged(DocumentEvent e) {
-			if (cyan.getText().isEmpty() || magenta.getText().isEmpty() || yellow.getText().isEmpty()
-					|| key.getText().isEmpty()) {
-				return;
-			}
 			try {
 				double cyanValue = Double.parseDouble(cyan.getText());
 				double magentaValue = Double.parseDouble(magenta.getText());
 				double yellowValue = Double.parseDouble(yellow.getText());
 				double keyValue = Double.parseDouble(key.getText());
-				validateBetween(cyanValue, 0.0, 1.0);
-				validateBetween(magentaValue, 0.0, 1.0);
-				validateBetween(yellowValue, 0.0, 1.0);
-				validateBetween(keyValue, 0.0, 1.0);
+				validateBetween(0.0, 1.0, cyanValue, magentaValue, yellowValue, keyValue);
 				int[] rgb = Converter.cmyk2rgb(cyanValue, magentaValue, yellowValue, keyValue);
 				setRGB(rgb[0], rgb[1], rgb[2]);
 			} catch (NumberFormatException ex) {
@@ -243,12 +231,9 @@ public class ConversionPanel extends JPanel {
 
 		@Override
 		protected void stateChanged(DocumentEvent e) {
-			if (gray.getText().isEmpty()) {
-				return;
-			}
 			try {
 				int grayValue = Integer.parseInt(gray.getText());
-				validateBetween(grayValue, 0, 255);
+				validateBetween(0, 255, grayValue);
 				int[] rgb = Converter.grayscale2rgb(grayValue);
 				setRGB(rgb[0], rgb[1], rgb[2]);
 			} catch (NumberFormatException ex) {
@@ -264,16 +249,11 @@ public class ConversionPanel extends JPanel {
 
 		@Override
 		protected void stateChanged(DocumentEvent e) {
-			if (hue.getText().isEmpty() || saturation.getText().isEmpty() || value.getText().isEmpty()) {
-				return;
-			}
 			try {
 				double hueValue = Double.parseDouble(hue.getText());
 				double saturationValue = Double.parseDouble(saturation.getText());
 				double valueValue = Double.parseDouble(value.getText());
-				validateBetween(hueValue, 0.0, 255.0);
-				validateBetween(saturationValue, 0.0, 255.0);
-				validateBetween(valueValue, 0.0, 255.0);
+				validateBetween(0.0, 255.0, hueValue, saturationValue, valueValue);
 				int[] rgb = Converter.hsv2rgb(hueValue, saturationValue, valueValue);
 				setRGB(rgb[0], rgb[1], rgb[2]);
 			} catch (NumberFormatException ex) {
@@ -282,15 +262,19 @@ public class ConversionPanel extends JPanel {
 		}
 	}
 
-	public void validateBetween(int value, int from, int to) {
-		if (value < from || value > to) {
-			throw new NumberFormatException("Value " + value + " is not between " + from + " and " + to);
+	public void validateBetween(int from, int to, int... values) {
+		for (int value : values) {
+			if (value < from || value > to) {
+				throw new NumberFormatException("Value " + value + " is not between " + from + " and " + to);
+			}
 		}
 	}
 
-	public void validateBetween(double value, double from, double to) {
-		if (value < from || value > to) {
-			throw new NumberFormatException("Value " + value + " is not between " + from + " and " + to);
+	public void validateBetween(double from, double to, double... values) {
+		for (double value : values) {
+			if (value < from || value > to) {
+				throw new NumberFormatException("Value " + value + " is not between " + from + " and " + to);
+			}
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -22,6 +23,14 @@ public class ImagePanel extends JPanel implements ClickListener {
 
 	public BufferedImage getImage() {
 		return image;
+	}
+
+	@Override
+	public Dimension getPreferredSize() {
+		if (image != null) {
+			return new Dimension(image.getWidth(), image.getHeight());
+		}
+		return new Dimension(0, 0);
 	}
 
 	public void setImage(BufferedImage image) {

@@ -26,6 +26,7 @@ public class ImageChooserListener implements ActionListener {
 			File image = fileChooser.getSelectedFile();
 			try {
 				imagePanel.setImage(ImageIO.read(image));
+				imagePanel.revalidate();
 				imagePanel.repaint();
 			} catch (IOException e1) {
 				e1.printStackTrace();
