@@ -11,14 +11,18 @@ import javax.swing.JSlider;
 
 @SuppressWarnings("serial")
 public class HSVPickerPanel extends JPanel {
+	private static final int SLIDER_HEIGHT = 10;
+	private static final int FULL_ROTATION = 360;
 	private HSVPicker hsvPicker;
 	private JSlider hueSlider;
+	private int height = 400;
+	private int width = 400;
 
 	public HSVPickerPanel(ConversionPanel conversionPanel) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		hsvPicker = new HSVPicker(conversionPanel, 15, 20, 20);
-		hueSlider = new JSlider(JSlider.HORIZONTAL, 0, 360, 0);
-		hueSlider.setMaximumSize(new Dimension(15 * 20, 10));
+		hsvPicker = new HSVPicker(conversionPanel, width, height);
+		hueSlider = new JSlider(JSlider.HORIZONTAL, 0, FULL_ROTATION, 0);
+		hueSlider.setMaximumSize(new Dimension(width, SLIDER_HEIGHT));
 		hueSlider.setAlignmentX(Component.LEFT_ALIGNMENT);
 		hueSlider.setAlignmentY(Component.TOP_ALIGNMENT);
 		add(hueSlider);

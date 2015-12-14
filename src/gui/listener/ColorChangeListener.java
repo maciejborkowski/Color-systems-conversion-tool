@@ -1,5 +1,6 @@
 package gui.listener;
 
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -36,7 +37,13 @@ public abstract class ColorChangeListener implements DocumentListener {
 			stateChanged(e);
 			manager.setChanging(false);
 			if (!isMainColor()) {
-				manager.fireMainListener();
+				Runnable doFireMain = new Runnable() {
+					@Override
+					public void run() {
+						manager.fireMainListener();
+					}
+				};
+				SwingUtilities.invokeLater(doFireMain);
 			}
 		}
 	}
