@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 
 import org.opencv.core.Core;
 
@@ -20,12 +22,15 @@ public class ColorConversionApplication {
 
 	private JFrame frame;
 	private ConversionPanel conversionPanel;
+	private JTabbedPane tabs;
 	private ImagePanel imagePanel;
 	private JMenuBar menuBar;
 	private JMenu menu;
 	private JMenuItem menuItem;
 	private final ColorListenerManager colorListenerManager = new ColorListenerManager();
 	private HSVPickerPanel hsvPickerPanel;
+	private RGBPickerPanel rgbPickerPanel;
+	private JScrollPane scrollableImage;
 
 	public static void main(String[] args) {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -64,12 +69,16 @@ public class ColorConversionApplication {
 		frame = new JFrame(WINDOW_LABEL);
 		frame.setBounds(0, 0, 800, 680);
 		frame.getContentPane().setLayout(new BorderLayout());
+		tabs = new JTabbedPane();
 		conversionPanel = new ConversionPanel(colorListenerManager);
 		imagePanel = new ImagePanel(conversionPanel);
+		scrollableImage = new JScrollPane(imagePanel);
 		hsvPickerPanel = new HSVPickerPanel(conversionPanel);
+		tabs.addTab("HSV Picker", hsvPickerPanel);
+		tabs.addTab("RGB Picker", rgbPickerPanel);
+		tabs.addTab("Image Picker", scrollableImage);
 		frame.add(conversionPanel, BorderLayout.WEST);
-		frame.add(imagePanel, BorderLayout.EAST);
-		frame.add(hsvPickerPanel, BorderLayout.CENTER);
+		frame.add(tabs, BorderLayout.CENTER);
 	}
 
 }

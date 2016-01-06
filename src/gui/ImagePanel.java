@@ -21,16 +21,16 @@ public class ImagePanel extends JPanel implements ClickListener {
 
 	private BufferedImage image;
 
-	public BufferedImage getImage() {
-		return image;
-	}
-
 	@Override
 	public Dimension getPreferredSize() {
 		if (image != null) {
 			return new Dimension(image.getWidth(), image.getHeight());
 		}
 		return new Dimension(0, 0);
+	}
+
+	public BufferedImage getImage() {
+		return image;
 	}
 
 	public void setImage(BufferedImage image) {
