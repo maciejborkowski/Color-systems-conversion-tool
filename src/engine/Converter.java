@@ -96,10 +96,12 @@ public class Converter {
 	}
 
 	public static boolean rgb2binary(int red, int green, int blue) {
+		// TODO
 		return false;
 	}
 
 	public static int[] binary2rgb(boolean binary) {
+		// TODO
 		return null;
 	}
 
@@ -133,6 +135,26 @@ public class Converter {
 		int b = (int) ((-2.8598 * y - 4.9003 * i - 0.7942 * q) * 255);
 
 		return new int[] { r, g, b };
+	}
+
+	public static String rgb2hex(int r, int g, int b) {
+		String hexR = Integer.toHexString(r);
+		String hexG = Integer.toHexString(g);
+		String hexB = Integer.toHexString(b);
+
+		hexR = hexR.length() < 2 ? "0" + hexR : hexR;
+		hexG = hexG.length() < 2 ? "0" + hexG : hexG;
+		hexB = hexB.length() < 2 ? "0" + hexB : hexB;
+
+		return "#" + hexR + hexG + hexB;
+	}
+
+	public static int[] hex2rgb(String hex) {
+		String hexR = hex.substring(1, 3);
+		String hexG = hex.substring(3, 5);
+		String hexB = hex.substring(5, 7);
+		
+		return new int[] {Integer.parseInt(hexR, 16), Integer.parseInt(hexG, 16), Integer.parseInt(hexB, 16)};
 	}
 
 	private static double maxOfThree(double first, double second, double third) {
