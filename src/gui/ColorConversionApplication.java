@@ -14,6 +14,8 @@ import org.opencv.core.Core;
 
 import gui.listener.ColorListenerManager;
 import gui.listener.ImageChooserListener;
+import gui.picker.HSVPickerPanel;
+import gui.picker.RGBPickerPanel;
 
 public class ColorConversionApplication {
 	private final static String WINDOW_LABEL = "Color Systems Conversion Tool";
@@ -71,9 +73,10 @@ public class ColorConversionApplication {
 		frame.getContentPane().setLayout(new BorderLayout());
 		tabs = new JTabbedPane();
 		conversionPanel = new ConversionPanel(colorListenerManager);
+		hsvPickerPanel = new HSVPickerPanel(conversionPanel);
+		rgbPickerPanel = new RGBPickerPanel(conversionPanel);
 		imagePanel = new ImagePanel(conversionPanel);
 		scrollableImage = new JScrollPane(imagePanel);
-		hsvPickerPanel = new HSVPickerPanel(conversionPanel);
 		tabs.addTab("HSV Picker", hsvPickerPanel);
 		tabs.addTab("RGB Picker", rgbPickerPanel);
 		tabs.addTab("Image Picker", scrollableImage);

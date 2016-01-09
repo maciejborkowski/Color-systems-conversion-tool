@@ -1,13 +1,15 @@
-package gui;
+package gui.picker;
 
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+
+import gui.ConversionPanel;
+import gui.listener.DragListener;
 
 @SuppressWarnings("serial")
 public class HSVPickerPanel extends JPanel {
@@ -30,7 +32,7 @@ public class HSVPickerPanel extends JPanel {
 		hueSlider.addMouseMotionListener(new HueChangeListener());
 	}
 
-	private class HueChangeListener implements MouseMotionListener {
+	private class HueChangeListener implements DragListener {
 
 		@Override
 		public void mouseDragged(MouseEvent e) {
@@ -40,9 +42,6 @@ public class HSVPickerPanel extends JPanel {
 			hsvPicker.repaint();
 		}
 
-		@Override
-		public void mouseMoved(MouseEvent e) {
-		}
 	}
 
 }

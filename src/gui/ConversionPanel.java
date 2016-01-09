@@ -20,7 +20,8 @@ import gui.listener.ColorListenerManager;
 @SuppressWarnings("serial")
 public class ConversionPanel extends JPanel {
 	private static final int INDICATOR_SIZE = 200;
-	private ColoredSquare colorIndicator = new ColoredSquare(INDICATOR_SIZE, Color.WHITE);
+	private ColoredRectangle colorIndicator = new ColoredRectangle(new Dimension(INDICATOR_SIZE, INDICATOR_SIZE),
+			Color.WHITE);
 
 	private JLabel rgb = new JLabel("RGB");
 	private JTextField red = new JTextField();

@@ -1,4 +1,4 @@
-package gui;
+package gui.picker;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,12 +9,12 @@ import java.awt.event.MouseEvent;
 import javax.swing.JComponent;
 
 import engine.Converter;
+import gui.ConversionPanel;
 import gui.listener.ClickListener;
 
 @SuppressWarnings("serial")
 public class HSVPicker extends JComponent implements ClickListener {
 	private final ConversionPanel conversionPanel;
-	private double hue;
 	private int colors[][][];
 	private int saturationResolution;
 	private int valueResolution;
@@ -41,7 +41,6 @@ public class HSVPicker extends JComponent implements ClickListener {
 	}
 
 	public void setHue(double hue) {
-		this.hue = hue;
 		for (int j = 0; j < valueResolution; j++) {
 			int localSatRes = (int) (saturationResolution * (1.0 - 1.0 * j / valueResolution));
 			for (int i = 0; i < localSatRes; i++) {

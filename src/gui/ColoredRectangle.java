@@ -7,20 +7,20 @@ import java.awt.Graphics;
 import javax.swing.JComponent;
 
 @SuppressWarnings("serial")
-public class ColoredSquare extends JComponent {
+public class ColoredRectangle extends JComponent {
 	private Color color;
-	private int size;
+	private Dimension dimsension;
 
-	public ColoredSquare(int size, Color color) {
-		this.size = size;
+	public ColoredRectangle(Dimension dimsension, Color color) {
+		this.dimsension = dimsension;
 		this.color = color;
-		setPreferredSize(new Dimension(size, size));
+		setPreferredSize(new Dimension(dimsension.width, dimsension.height));
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		g.setColor(color);
-		g.fillRect(0, 0, size, size);
+		g.fillRect(0, 0, dimsension.width, dimsension.height);
 	}
 
 	public void setColor(Color color) {
