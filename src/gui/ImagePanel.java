@@ -54,7 +54,6 @@ public class ImagePanel extends JPanel implements ClickListener {
 		try {
 			int[] pixel = image.getData().getPixel(point.x, point.y, new int[3]);
 			conversionPanel.setRGB(pixel[0], pixel[1], pixel[2]);
-			System.out.println(point + " " + pixel);
 		} catch (ArrayIndexOutOfBoundsException ex) {
 		}
 	}

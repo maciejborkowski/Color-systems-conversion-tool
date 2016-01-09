@@ -45,6 +45,16 @@ public class RGBPickerPanel extends JPanel {
 		blueSlider.addMouseMotionListener(new SliderChangeListener(blueStrip));
 	}
 
+	public void setColor(int red, int green, int blue) {
+		redSlider.setValue(red);
+		redStrip.setColors(createColors(-1, green, blue));
+		greenSlider.setValue(green);
+		greenStrip.setColors(createColors(red, -1, blue));
+		blueSlider.setValue(blue);
+		blueStrip.setColors(createColors(red, green, -1));
+		repaint();
+	}
+
 	private JSlider initSlider() {
 		JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, FULL_ROTATION, 0);
 		slider.setMaximumSize(new Dimension(width, SLIDER_HEIGHT));
@@ -107,4 +117,5 @@ public class RGBPickerPanel extends JPanel {
 		}
 		return colors;
 	}
+
 }

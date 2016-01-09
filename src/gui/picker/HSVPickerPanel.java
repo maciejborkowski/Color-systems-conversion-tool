@@ -14,7 +14,7 @@ import gui.listener.DragListener;
 @SuppressWarnings("serial")
 public class HSVPickerPanel extends JPanel {
 	private static final int SLIDER_HEIGHT = 10;
-	private static final int FULL_ROTATION = 360;
+	private static final int FULL_ROTATION = 359;
 	private HSVPicker hsvPicker;
 	private JSlider hueSlider;
 	private int height = 400;
@@ -30,6 +30,12 @@ public class HSVPickerPanel extends JPanel {
 		add(hueSlider);
 		add(hsvPicker);
 		hueSlider.addMouseMotionListener(new HueChangeListener());
+	}
+
+	public void setColor(double hue, double saturation, double value) {
+		hueSlider.setValue((int) hue);
+		hsvPicker.setHue(hue);
+		repaint();
 	}
 
 	private class HueChangeListener implements DragListener {

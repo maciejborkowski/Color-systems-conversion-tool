@@ -16,12 +16,19 @@ import javax.swing.event.DocumentEvent;
 import engine.Converter;
 import gui.listener.ColorChangeListener;
 import gui.listener.ColorListenerManager;
+import gui.picker.HSVPickerPanel;
+import gui.picker.RGBPickerPanel;
 
 @SuppressWarnings("serial")
 public class ConversionPanel extends JPanel {
 	private static final int INDICATOR_SIZE = 200;
 	private ColoredRectangle colorIndicator = new ColoredRectangle(new Dimension(INDICATOR_SIZE, INDICATOR_SIZE),
 			Color.WHITE);
+
+	private final NumberFormat cmykFormatter = NumberFormat.getNumberInstance(Locale.ENGLISH);
+	private final NumberFormat hsvFormatter = NumberFormat.getNumberInstance(Locale.ENGLISH);
+	private final NumberFormat yiqFormatter = NumberFormat.getNumberInstance(Locale.ENGLISH);
+	private final NumberFormat yuvFormatter = NumberFormat.getNumberInstance(Locale.ENGLISH);
 
 	private JLabel rgb = new JLabel("RGB");
 	private JTextField red = new JTextField();
@@ -55,14 +62,13 @@ public class ConversionPanel extends JPanel {
 	private JTextField yuvu = new JTextField();
 	private JTextField yuvv = new JTextField();
 
-	private final NumberFormat cmykFormatter = NumberFormat.getNumberInstance(Locale.ENGLISH);
-	private final NumberFormat hsvFormatter = NumberFormat.getNumberInstance(Locale.ENGLISH);
-	private final NumberFormat yiqFormatter = NumberFormat.getNumberInstance(Locale.ENGLISH);
-	private final NumberFormat yuvFormatter = NumberFormat.getNumberInstance(Locale.ENGLISH);
 	private ColorListenerManager colorListenerManager;
+	private RGBPickerPanel rgbPickerPanel;
+	private HSVPickerPanel hsvPickerPanel;
 
 	public ConversionPanel(ColorListenerManager colorListenerManager) {
 		this.colorListenerManager = colorListenerManager;
+
 		cmykFormatter.setMaximumFractionDigits(2);
 		hsvFormatter.setMaximumFractionDigits(0);
 		yiqFormatter.setMaximumFractionDigits(2);
@@ -81,6 +87,14 @@ public class ConversionPanel extends JPanel {
 		addHSV(constraints);
 		// addYIQ(constraints);
 		// addYUV(constraints);
+	}
+
+	public void setRGBPicker(RGBPickerPanel rgbPickerPanel) {
+		this.rgbPickerPanel = rgbPickerPanel;
+	}
+
+	public void setHSVPicker(HSVPickerPanel hsvPickerPanel) {
+		this.hsvPickerPanel = hsvPickerPanel;
 	}
 
 	private void addIndicator(GridBagConstraints constraints) {
@@ -227,6 +241,7 @@ public class ConversionPanel extends JPanel {
 			changeHSV(redValue, greenValue, blueValue);
 			changeYIQ(redValue, greenValue, blueValue);
 			changeYUV(redValue, greenValue, blueValue);
+			changeRGBPicker(redValue, greenValue, blueValue);
 		}
 
 		private void changeIndicator(int red, int green, int blue) {
@@ -258,6 +273,7 @@ public class ConversionPanel extends JPanel {
 			hue.setText(hsvFormatter.format(hsv[0]));
 			saturation.setText(hsvFormatter.format(hsv[1]));
 			value.setText(hsvFormatter.format(hsv[2]));
+			changeHSVPicker(hsv[0], hsv[1], hsv[2]);
 		}
 
 		private void changeYIQ(int red, int green, int blue) {
@@ -272,6 +288,14 @@ public class ConversionPanel extends JPanel {
 			yuvy.setText(yuvFormatter.format(yuv[0]));
 			yuvu.setText(yuvFormatter.format(yuv[1]));
 			yuvv.setText(yuvFormatter.format(yuv[2]));
+		}
+
+		private void changeRGBPicker(int red, int green, int blue) {
+			rgbPickerPanel.setColor(red, green, blue);
+		}
+
+		private void changeHSVPicker(double hue, double saturation, double value) {
+			hsvPickerPanel.setColor(hue, saturation, value);
 		}
 
 		@Override

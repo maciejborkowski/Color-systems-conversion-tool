@@ -74,7 +74,10 @@ public class ColorConversionApplication {
 		tabs = new JTabbedPane();
 		conversionPanel = new ConversionPanel(colorListenerManager);
 		hsvPickerPanel = new HSVPickerPanel(conversionPanel);
+		conversionPanel.setHSVPicker(hsvPickerPanel);
 		rgbPickerPanel = new RGBPickerPanel(conversionPanel);
+		conversionPanel.setRGBPicker(rgbPickerPanel);
+
 		imagePanel = new ImagePanel(conversionPanel);
 		scrollableImage = new JScrollPane(imagePanel);
 		tabs.addTab("HSV Picker", hsvPickerPanel);

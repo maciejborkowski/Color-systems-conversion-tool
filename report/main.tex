@@ -1,5 +1,4 @@
 \documentclass[titlepage]{article}
-\usepackage{polski}
 \usepackage[utf8]{inputenc}
 \usepackage[left=1cm, top=0.8cm,bottom=1.2cm, textwidth=18.6cm, textheight=27cm]{geometry}
 \geometry{paper=a4paper}
@@ -8,6 +7,7 @@
 \usepackage{fancyhdr}
 \usepackage{amsmath}
 \usepackage{gensymb}
+\usepackage{graphicx}
 
 \lhead{} \chead{} \rhead{}
 \lfoot{\emph{Multimedia and computer visualisation 2015/2016}} \cfoot{} \rfoot{\thepage}
@@ -157,5 +157,31 @@ Some examples for conversion between 0-255 RGB and CMYK:
 \end{itemize}
 
 \section{Application Functionality}
-% TODO Maciek, to Twoja czesc
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.35\textwidth]{img/conversion.png} 
+	\caption{Color conversion panel}
+\end{figure}
+
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.5\textwidth]{img/hsvpick.png} 
+	\caption{Picking color from HSV cone}
+\end{figure}
+
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{img/rgbpick.png} 
+	\caption{Picking color from RGB sliders}
+\end{figure}
+
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.4\textwidth]{img/imagepick.png}
+	\caption{Picking color from image} 
+\end{figure}
 \end{document}
