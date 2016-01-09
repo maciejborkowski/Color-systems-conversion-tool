@@ -28,6 +28,9 @@ public class ConversionPanel extends JPanel {
 	private JTextField green = new JTextField();
 	private JTextField blue = new JTextField();
 
+	private JLabel rgbHex = new JLabel("RGB Hex");
+	private JTextField hex = new JTextField();
+
 	private JLabel cmyk = new JLabel("CMYK");
 	private JTextField cyan = new JTextField();
 	private JTextField magenta = new JTextField();
@@ -72,11 +75,12 @@ public class ConversionPanel extends JPanel {
 
 		addIndicator(constraints);
 		addRGB(constraints);
+		addRGBHex(constraints);
 		addCMYK(constraints);
 		addGrayscale(constraints);
 		addHSV(constraints);
-		addYIQ(constraints);
-		addYUV(constraints);
+		// addYIQ(constraints);
+		// addYUV(constraints);
 	}
 
 	private void addIndicator(GridBagConstraints constraints) {
@@ -98,6 +102,16 @@ public class ConversionPanel extends JPanel {
 		red.getDocument().addDocumentListener(rgbListener);
 		green.getDocument().addDocumentListener(rgbListener);
 		blue.getDocument().addDocumentListener(rgbListener);
+	}
+
+	private void addRGBHex(GridBagConstraints constraints) {
+		addComponent(rgbHex, constraints);
+		newLine(constraints);
+		addComponent(hex, constraints);
+		newLine(constraints);
+
+		RGBHexListener hexListener = new RGBHexListener(colorListenerManager);
+		hex.getDocument().addDocumentListener(hexListener);
 	}
 
 	private void addCMYK(GridBagConstraints constraints) {
@@ -207,6 +221,7 @@ public class ConversionPanel extends JPanel {
 			int blueValue = Integer.parseInt(blue.getText());
 			validateBetween(0, 255, redValue, greenValue, blueValue);
 			changeIndicator(redValue, greenValue, blueValue);
+			changeRGBHex(redValue, greenValue, blueValue);
 			changeCMYK(redValue, greenValue, blueValue);
 			changeGrayscale(redValue, greenValue, blueValue);
 			changeHSV(redValue, greenValue, blueValue);
@@ -218,6 +233,11 @@ public class ConversionPanel extends JPanel {
 			Color color = new Color(red, green, blue);
 			colorIndicator.setColor(color);
 			colorIndicator.repaint();
+		}
+
+		private void changeRGBHex(int red, int green, int blue) {
+			String hexValue = Converter.rgb2hex(red, green, blue);
+			hex.setText(hexValue);
 		}
 
 		private void changeCMYK(int red, int green, int blue) {
@@ -257,6 +277,20 @@ public class ConversionPanel extends JPanel {
 		@Override
 		protected boolean isMainColor() {
 			return true;
+		}
+	}
+
+	private class RGBHexListener extends ColorChangeListener {
+
+		public RGBHexListener(ColorListenerManager manager) {
+			super(manager);
+		}
+
+		@Override
+		protected void stateChanged(DocumentEvent e) {
+			String hexValue = hex.getText();
+			int[] rgb = Converter.hex2rgb(hexValue);
+			setRGB(rgb[0], rgb[1], rgb[2]);
 		}
 	}
 
