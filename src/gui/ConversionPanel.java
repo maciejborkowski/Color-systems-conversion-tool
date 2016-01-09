@@ -42,14 +42,28 @@ public class ConversionPanel extends JPanel {
 	private JTextField saturation = new JTextField();
 	private JTextField value = new JTextField();
 
-	private final NumberFormat cmykFormetter = NumberFormat.getNumberInstance(Locale.ENGLISH);
+	private JLabel yiq = new JLabel("YIQ");
+	private JTextField yiqy = new JTextField();
+	private JTextField yiqi = new JTextField();
+	private JTextField yiqq = new JTextField();
+
+	private JLabel yuv = new JLabel("YUV");
+	private JTextField yuvy = new JTextField();
+	private JTextField yuvu = new JTextField();
+	private JTextField yuvv = new JTextField();
+
+	private final NumberFormat cmykFormatter = NumberFormat.getNumberInstance(Locale.ENGLISH);
 	private final NumberFormat hsvFormatter = NumberFormat.getNumberInstance(Locale.ENGLISH);
+	private final NumberFormat yiqFormatter = NumberFormat.getNumberInstance(Locale.ENGLISH);
+	private final NumberFormat yuvFormatter = NumberFormat.getNumberInstance(Locale.ENGLISH);
 	private ColorListenerManager colorListenerManager;
 
 	public ConversionPanel(ColorListenerManager colorListenerManager) {
 		this.colorListenerManager = colorListenerManager;
-		cmykFormetter.setMaximumFractionDigits(2);
+		cmykFormatter.setMaximumFractionDigits(2);
 		hsvFormatter.setMaximumFractionDigits(0);
+		yiqFormatter.setMaximumFractionDigits(2);
+		yuvFormatter.setMaximumFractionDigits(2);
 		setLayout(new GridBagLayout());
 
 		GridBagConstraints constraints = new GridBagConstraints();
@@ -61,6 +75,8 @@ public class ConversionPanel extends JPanel {
 		addCMYK(constraints);
 		addGrayscale(constraints);
 		addHSV(constraints);
+		addYIQ(constraints);
+		addYUV(constraints);
 	}
 
 	private void addIndicator(GridBagConstraints constraints) {
@@ -126,6 +142,34 @@ public class ConversionPanel extends JPanel {
 		value.getDocument().addDocumentListener(hsvListener);
 	}
 
+	private void addYIQ(GridBagConstraints constraints) {
+		addComponent(yiq, constraints);
+		newLine(constraints);
+		addComponent(yiqy, constraints);
+		addComponent(yiqi, constraints);
+		addComponent(yiqq, constraints);
+		newLine(constraints);
+
+		YIQListener yiqListener = new YIQListener(colorListenerManager);
+		yiqy.getDocument().addDocumentListener(yiqListener);
+		yiqi.getDocument().addDocumentListener(yiqListener);
+		yiqq.getDocument().addDocumentListener(yiqListener);
+	}
+
+	private void addYUV(GridBagConstraints constraints) {
+		addComponent(yuv, constraints);
+		newLine(constraints);
+		addComponent(yuvy, constraints);
+		addComponent(yuvu, constraints);
+		addComponent(yuvv, constraints);
+		newLine(constraints);
+
+		YUVListener yuvListener = new YUVListener(colorListenerManager);
+		yuvy.getDocument().addDocumentListener(yuvListener);
+		yuvu.getDocument().addDocumentListener(yuvListener);
+		yuvv.getDocument().addDocumentListener(yuvListener);
+	}
+
 	public void setRGB(int red, int green, int blue) {
 		this.red.setText(Integer.toString(red));
 		this.green.setText(Integer.toString(green));
@@ -158,17 +202,16 @@ public class ConversionPanel extends JPanel {
 
 		@Override
 		protected void stateChanged(DocumentEvent e) {
-			try {
-				int redValue = Integer.parseInt(red.getText());
-				int greenValue = Integer.parseInt(green.getText());
-				int blueValue = Integer.parseInt(blue.getText());
-				validateBetween(0, 255, redValue, greenValue, blueValue);
-				changeIndicator(redValue, greenValue, blueValue);
-				changeCMYK(redValue, greenValue, blueValue);
-				changeGrayscale(redValue, greenValue, blueValue);
-				changeHSV(redValue, greenValue, blueValue);
-			} catch (NumberFormatException ex) {
-			}
+			int redValue = Integer.parseInt(red.getText());
+			int greenValue = Integer.parseInt(green.getText());
+			int blueValue = Integer.parseInt(blue.getText());
+			validateBetween(0, 255, redValue, greenValue, blueValue);
+			changeIndicator(redValue, greenValue, blueValue);
+			changeCMYK(redValue, greenValue, blueValue);
+			changeGrayscale(redValue, greenValue, blueValue);
+			changeHSV(redValue, greenValue, blueValue);
+			changeYIQ(redValue, greenValue, blueValue);
+			changeYUV(redValue, greenValue, blueValue);
 		}
 
 		private void changeIndicator(int red, int green, int blue) {
@@ -179,10 +222,10 @@ public class ConversionPanel extends JPanel {
 
 		private void changeCMYK(int red, int green, int blue) {
 			double[] cmyk = Converter.rgb2cmyk(red, green, blue);
-			cyan.setText(cmykFormetter.format(cmyk[0]));
-			magenta.setText(cmykFormetter.format(cmyk[1]));
-			yellow.setText(cmykFormetter.format(cmyk[2]));
-			key.setText(cmykFormetter.format(cmyk[3]));
+			cyan.setText(cmykFormatter.format(cmyk[0]));
+			magenta.setText(cmykFormatter.format(cmyk[1]));
+			yellow.setText(cmykFormatter.format(cmyk[2]));
+			key.setText(cmykFormatter.format(cmyk[3]));
 		}
 
 		private void changeGrayscale(int red, int green, int blue) {
@@ -195,6 +238,20 @@ public class ConversionPanel extends JPanel {
 			hue.setText(hsvFormatter.format(hsv[0]));
 			saturation.setText(hsvFormatter.format(hsv[1]));
 			value.setText(hsvFormatter.format(hsv[2]));
+		}
+
+		private void changeYIQ(int red, int green, int blue) {
+			double[] yiq = Converter.rgb2yiq(red, green, blue);
+			yiqy.setText(yiqFormatter.format(yiq[0]));
+			yiqi.setText(yiqFormatter.format(yiq[1]));
+			yiqq.setText(yiqFormatter.format(yiq[2]));
+		}
+
+		private void changeYUV(int red, int green, int blue) {
+			double[] yuv = Converter.rgb2yuv(red, green, blue);
+			yuvy.setText(yuvFormatter.format(yuv[0]));
+			yuvu.setText(yuvFormatter.format(yuv[1]));
+			yuvv.setText(yuvFormatter.format(yuv[2]));
 		}
 
 		@Override
@@ -211,16 +268,17 @@ public class ConversionPanel extends JPanel {
 
 		@Override
 		protected void stateChanged(DocumentEvent e) {
-			try {
-				double cyanValue = Double.parseDouble(cyan.getText());
-				double magentaValue = Double.parseDouble(magenta.getText());
-				double yellowValue = Double.parseDouble(yellow.getText());
-				double keyValue = Double.parseDouble(key.getText());
-				validateBetween(0.0, 1.0, cyanValue, magentaValue, yellowValue, keyValue);
-				int[] rgb = Converter.cmyk2rgb(cyanValue, magentaValue, yellowValue, keyValue);
-				setRGB(rgb[0], rgb[1], rgb[2]);
-			} catch (NumberFormatException ex) {
+			if (cyan.getText().endsWith(".") || magenta.getText().endsWith(".") || yellow.getText().endsWith(".")
+					|| key.getText().endsWith(".")) {
+				throw new NumberFormatException("No . at the end is allowed, it should not parse");
 			}
+			double cyanValue = Double.parseDouble(cyan.getText());
+			double magentaValue = Double.parseDouble(magenta.getText());
+			double yellowValue = Double.parseDouble(yellow.getText());
+			double keyValue = Double.parseDouble(key.getText());
+			validateBetween(0.0, 1.0, cyanValue, magentaValue, yellowValue, keyValue);
+			int[] rgb = Converter.cmyk2rgb(cyanValue, magentaValue, yellowValue, keyValue);
+			setRGB(rgb[0], rgb[1], rgb[2]);
 		}
 	}
 
@@ -232,13 +290,10 @@ public class ConversionPanel extends JPanel {
 
 		@Override
 		protected void stateChanged(DocumentEvent e) {
-			try {
-				int grayValue = Integer.parseInt(gray.getText());
-				validateBetween(0, 255, grayValue);
-				int[] rgb = Converter.grayscale2rgb(grayValue);
-				setRGB(rgb[0], rgb[1], rgb[2]);
-			} catch (NumberFormatException ex) {
-			}
+			int grayValue = Integer.parseInt(gray.getText());
+			validateBetween(0, 255, grayValue);
+			int[] rgb = Converter.grayscale2rgb(grayValue);
+			setRGB(rgb[0], rgb[1], rgb[2]);
 		}
 	}
 
@@ -250,16 +305,52 @@ public class ConversionPanel extends JPanel {
 
 		@Override
 		protected void stateChanged(DocumentEvent e) {
-			try {
-				double hueValue = Double.parseDouble(hue.getText());
-				double saturationValue = Double.parseDouble(saturation.getText());
-				double valueValue = Double.parseDouble(value.getText());
-				validateBetween(0.0, 255.0, hueValue, saturationValue, valueValue);
-				int[] rgb = Converter.hsv2rgb(hueValue, saturationValue, valueValue);
-				setRGB(rgb[0], rgb[1], rgb[2]);
-			} catch (NumberFormatException ex) {
-				ex.printStackTrace();
+			double hueValue = Double.parseDouble(hue.getText());
+			double saturationValue = Double.parseDouble(saturation.getText());
+			double valueValue = Double.parseDouble(value.getText());
+			validateBetween(0.0, 255.0, hueValue, saturationValue, valueValue);
+			int[] rgb = Converter.hsv2rgb(hueValue, saturationValue, valueValue);
+			setRGB(rgb[0], rgb[1], rgb[2]);
+		}
+	}
+
+	private class YIQListener extends ColorChangeListener {
+
+		public YIQListener(ColorListenerManager manager) {
+			super(manager);
+		}
+
+		@Override
+		protected void stateChanged(DocumentEvent e) {
+			if (yiqy.getText().endsWith(".") || yiqi.getText().endsWith(".") || yiqq.getText().endsWith(".")) {
+				throw new NumberFormatException("No . at the end is allowed, it should not parse");
 			}
+			double yValue = Double.parseDouble(yiqy.getText());
+			double iValue = Double.parseDouble(yiqi.getText());
+			double qValue = Double.parseDouble(yiqq.getText());
+			validateBetween(-1.0, 1.0, yValue, iValue, qValue);
+			int[] rgb = Converter.yiq2rgb(yValue, iValue, qValue);
+			setRGB(rgb[0], rgb[1], rgb[2]);
+		}
+	}
+
+	private class YUVListener extends ColorChangeListener {
+
+		public YUVListener(ColorListenerManager manager) {
+			super(manager);
+		}
+
+		@Override
+		protected void stateChanged(DocumentEvent e) {
+			if (yuvy.getText().endsWith(".") || yuvu.getText().endsWith(".") || yuvv.getText().endsWith(".")) {
+				throw new NumberFormatException("No . at the end is allowed, it should not parse");
+			}
+			double yValue = Double.parseDouble(yuvy.getText());
+			double uValue = Double.parseDouble(yuvu.getText());
+			double vValue = Double.parseDouble(yuvv.getText());
+			validateBetween(-1, 1, yValue, uValue, vValue);
+			int[] rgb = Converter.hsv2rgb(yValue, uValue, vValue);
+			setRGB(rgb[0], rgb[1], rgb[2]);
 		}
 	}
 

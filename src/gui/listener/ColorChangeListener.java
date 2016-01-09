@@ -33,22 +33,32 @@ public abstract class ColorChangeListener implements DocumentListener {
 
 	private void processChange(DocumentEvent e) {
 		if (!manager.isChanging()) {
-			manager.setChanging(true);
-			stateChanged(e);
-			manager.setChanging(false);
-			if (!isMainColor()) {
-				Runnable doFireMain = new Runnable() {
-					@Override
-					public void run() {
-						manager.fireMainListener();
-					}
-				};
-				SwingUtilities.invokeLater(doFireMain);
+			try {
+				manager.setChanging(true);
+				stateChanged(e);
+				manager.setChanging(false);
+				if (!isMainColor()) {
+					Runnable doFireMain = new Runnable() {
+						@Override
+						public void run() {
+							manager.fireMainListener();
+						}
+					};
+
+					SwingUtilities.invokeLater(doFireMain);
+				}
+			} catch (NumberFormatException ex) {
+				// ex.printStackTrace();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			} finally {
+				manager.setChanging(false);
 			}
 		}
+
 	}
 
-	protected abstract void stateChanged(DocumentEvent e);
+	protected abstract void stateChanged(DocumentEvent e) throws NumberFormatException;
 
 	protected boolean isMainColor() {
 		return false;
