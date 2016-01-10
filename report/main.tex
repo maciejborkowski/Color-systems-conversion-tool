@@ -25,19 +25,36 @@
 %TODO
 
 \section{Color Systems}
-%TODO
-
+There are many color systems, used for describing color, but they are serving
+different purposes. Some of them are more precise, some are easy for humans to
+describe/imagine, some are used for printing, some require less memory, and some
+can describe wider range of colors.
+Popular color systems include:
 \begin{itemize}
-  \item RGB - red, green, blue,
+  \item RGB,
   \item grayscale,
   %TODO binary,
   \item CMYK,
   \item HSV.
   %TODO YUV & YIQ
 \end{itemize}
+Most popular system is RGB, and most conversion algorithms are for conversions
+from/to RGB. Conversions between other systems can be done by converting from
+original system to RGB, and then from RGB to desired system. Those conversions
+are not always perfect, because sometimes values need to be rounded, and some
+color systems can't describe all colors (with grayscale being one of examples).
 
 \subsection{RGB}
-%TODO
+RGB (\textbf{R}ed, \textbf{G}reen, \textbf{B}lue) is most popular color system.
+It is additive system, so color is created by addition of base colors (light in
+one of three colors) to black (no light). Mixing max values of them is shown on
+fig. \ref{fig:rgb}. Three RGB values can be described as percentage, 0-1, 0-255,
+or as single hexadecimal value. 0-255 (8 bit) or hexadecimal (which is a
+derivative of it) is most popular, but because it has not continous range of
+values, not all colors can be perfectly described, but error is small. Main
+problem with RGB system is, that result of mixing three colors is hard to
+imagine for humans.
+
 \begin{figure}[!htb]
 	\centering
 	\includegraphics[width=0.4\textwidth]{img/RGB.png}
@@ -67,11 +84,25 @@ operations. Some examples of hex values are:
 \end{itemize}
 
 \subsection{Grayscale}
-% TODO
+Grayscale is color system, which describes only intensity of color using a
+single value (percentage, 0-1 or 0-255). Therefore after conversion to
+grayscale, information about colors will be lost, and converting back will
+result in also gray image, but described using RGB, with all values being equal.
+This system is used mainly when there is no information about color, color is
+not important, and/or for printing with only black ink.
 \subsubsection{Conversion}
 Conversion from RGB to grayscale can be done by calculating average value of RGB
 values, and conversion in another direction by assigning one grayscale value to
 all RGB ones.
+
+\subsubsection{Examples}
+Some examples for conversion between 0-255 RGB and 0-255 grayscale:
+\begin{itemize}
+  \item $(255, 0, 0) \Rightarrow 85 \Rightarrow (85, 85, 85)$
+  \item $(0, 0, 255) \Rightarrow 85 \Rightarrow (85, 85, 85)$
+  \item $(0, 127, 255) \Rightarrow 127 \Rightarrow (127, 127, 127)$
+\end{itemize}
+As it can be seen, this is a lossy conversion.
 
 \subsection{HSV}
 HSV (\textbf{H}ue, \textbf{S}aturation, \textbf{V}alue), is a color system
@@ -148,17 +179,19 @@ CMYK (\textbf{C}yan, \textbf{M}agenta, \textbf{Y}ellow,
 Blac\textbf{k}/\textbf{K}ey value) is a substractive color model used mainly for
 printing. In opposite for RGB (additive), where adding all colours results in
 white color, in CMYK it gives black. It is so, because instead of adding light
-sources, filters (e.g. paint), which remove colors, are added. Each of CMY base
-colors is equal to one of three combinations of RGB pairs:
+sources, filters (e.g. paint), which remove colors, are added. Base color is
+white (mix of all wavelenghts), and then filters are added, and only not
+substracted colors are visible:
 \begin{itemize}
-  \item magenta adds red and blue, but substracts green,
-  \item yellow adds red and green, but substracts blue,
-  \item cyan adds green and blue, but substracts red.
+  \item magenta substracts green,
+  \item yellow substracts blue,
+  \item cyan substracts red.
 \end{itemize}
 Therefore to obtain RGB base value, two CMY base values need to be used. It can
 be seen on fig. \ref{fig:cmyk}. CMY colors can be also seen on fig.
 \ref{fig:rgb} in RGB section. Black component (K) is added to CMY, because in
-print, mixing all colors doesn't result in ideal black, and it is also cheaper than using three colors. CMYK values are represented by four values, each for
+print, mixing all colors doesn't result in ideal black, and it is also cheaper
+than using three colors. CMYK values are represented by four values, each for
 intensity of one of colors. It can be percentage, 0-1 number, or 0-255 number.
 
 \begin{figure}[!htb]
@@ -201,7 +234,12 @@ Some examples for conversion between 0-255 RGB and CMYK:
 
 \clearpage
 \section{Application Functionality}
-The application provides user with an intuitive graphical interface. On the left side there is a color conversion panel (Figure~\ref{fig:conv}), that provides automatic translation between RGB, RGB written as hex word, CMYK, Grayscale and HSV systems. Each of those fields is editable and as long as the data is valid, an automatic conversion will take place and all other field's values will be updated. There is also a large rectangle representing the choosen color.
+The application provides user with an intuitive graphical interface. On the left
+side there is a color conversion panel (Figure~\ref{fig:conv}), that provides
+automatic translation between RGB, RGB written as hex word, CMYK, Grayscale and
+HSV systems. Each of those fields is editable and as long as the data is valid,
+an automatic conversion will take place and all other field's values will be
+updated. There is also a large rectangle representing the choosen color.
 
 \begin{figure}[!htb]
 	\centering
@@ -210,7 +248,9 @@ The application provides user with an intuitive graphical interface. On the left
 	\label{fig:conv}
 \end{figure}
 
-On the right side one of three tabs can be selected. Image picker lets the user select a pixel from a loaded image, filling the conversion panel with its value in all available systems.
+On the right side one of three tabs can be selected. Image picker lets the user
+select a pixel from a loaded image, filling the conversion panel with its value
+in all available systems.
 
 \begin{figure}[!htb]
 	\centering
@@ -219,7 +259,11 @@ On the right side one of three tabs can be selected. Image picker lets the user 
 	\label{fig:image}
 \end{figure}
 
-Another tab, HSV Picker, lets the user choose a color using a two dimensional representation of a HSV cone. Slider at the top is linked to the Hue and using it changes the crossection showed as a triangle beneath. Clicking on a color on this triangle updates the color conversion panel with the colors values in available systems. HSV cone enables easy access to similar colors for the user.
+Another tab, HSV Picker, lets the user choose a color using a two dimensional
+representation of a HSV cone. Slider at the top is linked to the Hue and using
+it changes the crossection showed as a triangle beneath. Clicking on a color on
+this triangle updates the color conversion panel with the colors values in
+available systems. HSV cone enables easy access to similar colors for the user.
 
 \clearpage
 \begin{figure}[!htb]
@@ -229,7 +273,12 @@ Another tab, HSV Picker, lets the user choose a color using a two dimensional re
 	\label{fig:hsv_pick}
 \end{figure}
 
-Next tab, called RGB picker, consists of three sliders with a colourful strip under each one. Each slider represents the value of red, green or blue part of the RGB color scheme respectively. Each strip represents the colors that are available when changing just the value of the connected slider. Each change in the sliders will update conversion panel with the selected color. Additionally each change in the conversion panel will change the picked in this component.
+Next tab, called RGB picker, consists of three sliders with a colourful strip
+under each one. Each slider represents the value of red, green or blue part of
+the RGB color scheme respectively. Each strip represents the colors that are
+available when changing just the value of the connected slider. Each change in
+the sliders will update conversion panel with the selected color. Additionally
+each change in the conversion panel will change the picked in this component.
 
 \begin{figure}[!htb]
 	\centering
