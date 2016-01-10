@@ -156,32 +156,43 @@ Some examples for conversion between 0-255 RGB and CMYK:
   \item $(0, 255, 255) \Leftrightarrow (1, 0, 0, 0)$.
 \end{itemize}
 
+\clearpage
 \section{Application Functionality}
+The application provides user with an intuitive graphical interface. On the left side there is a color conversion panel (Figure~\ref{fig:conv}), that provides automatic translation between RGB, RGB written as hex word, CMYK, Grayscale and HSV systems. Each of those fields is editable and as long as the data is valid, an automatic conversion will take place and all other field's values will be updated. There is also a large rectangle representing the choosen color.
 
 \begin{figure}[!htb]
 	\centering
 	\includegraphics[width=0.35\textwidth]{img/conversion.png} 
 	\caption{Color conversion panel}
+	\label{fig:conv}
 \end{figure}
 
-
-\begin{figure}[!htb]
-	\centering
-	\includegraphics[width=0.5\textwidth]{img/hsvpick.png} 
-	\caption{Picking color from HSV cone}
-\end{figure}
-
-
-\begin{figure}[!htb]
-	\centering
-	\includegraphics[width=0.7\textwidth]{img/rgbpick.png} 
-	\caption{Picking color from RGB sliders}
-\end{figure}
-
+On the right side one of three tabs can be selected. Image picker lets the user select a pixel from a loaded image, filling the conversion panel with its value in all available systems.
 
 \begin{figure}[!htb]
 	\centering
 	\includegraphics[width=0.4\textwidth]{img/imagepick.png}
 	\caption{Picking color from image} 
+	\label{fig:image}
 \end{figure}
+
+Another tab, HSV Picker, lets the user choose a color using a two dimensional representation of a HSV cone. Slider at the top is linked to the Hue and using it changes the crossection showed as a triangle beneath. Clicking on a color on this triangle updates the color conversion panel with the colors values in available systems. HSV cone enables easy access to similar colors for the user.
+
+\clearpage
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.5\textwidth]{img/hsvpick.png} 
+	\caption{Picking color from HSV cone}
+	\label{fig:hsv}
+\end{figure}
+
+Next tab, called RGB picker, consists of three sliders with a colourful strip under each one. Each slider represents the value of red, green or blue part of the RGB color scheme respectively. Each strip represents the colors that are available when changing just the value of the connected slider. Each change in the sliders will update conversion panel with the selected color. Additionally each change in the conversion panel will change the picked in this component.
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.7\textwidth]{img/rgbpick.png} 
+	\caption{Picking color from RGB sliders}
+	\label{fig:rgb}
+\end{figure}
+
 \end{document}
