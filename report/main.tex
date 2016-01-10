@@ -38,6 +38,12 @@
 
 \subsection{RGB}
 %TODO
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.4\textwidth]{img/RGB.png}
+	\caption{RGB} 
+	\label{fig:rgb}
+\end{figure}
 
 \subsubsection{HEX}
 Hexadecimal represetation allows to write 3 RGB values as a single value,
@@ -68,7 +74,21 @@ values, and conversion in another direction by assigning one grayscale value to
 all RGB ones.
 
 \subsection{HSV}
-% TODO
+HSV (\textbf{H}ue, \textbf{S}aturation, \textbf{V}alue), is a color system
+created to make choosing a color easier for humans. Instead of mixing three
+values, person have to choose hue (color, shade), and then adjust its saturation
+and value (brightness/lightness). HSV can be represented as cylinder, or as a
+cone (fig. \ref{fig:hsv}). When looking from above, H is a degree on a wheel,
+saturation is a distance from center (percentage of radius), and
+value is deepth (percentage of cone/cylinder height).
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.5\textwidth]{img/hsv.png} 
+	\caption{HSV cone}
+	\label{fig:hsv}
+\end{figure}
+
 \subsubsection{Conversion from RGB}
 Conversion from 0-255 RGB values can be done by formula:
 \begin{equation}
@@ -124,9 +144,32 @@ Some examples for conversion between 0-255 RGB and HSV:
 \end{itemize}
 
 \subsection{CMYK}
-% TODO
+CMYK (\textbf{C}yan, \textbf{M}agenta, \textbf{Y}ellow,
+Blac\textbf{k}/\textbf{K}ey value) is a substractive color model used mainly for
+printing. In opposite for RGB (additive), where adding all colours results in
+white color, in CMYK it gives black. It is so, because instead of adding light
+sources, filters (e.g. paint), which remove colors, are added. Each of CMY base
+colors is equal to one of three combinations of RGB pairs:
+\begin{itemize}
+  \item magenta adds red and blue, but substracts green,
+  \item yellow adds red and green, but substracts blue,
+  \item cyan adds green and blue, but substracts red.
+\end{itemize}
+Therefore to obtain RGB base value, two CMY base values need to be used. It can
+be seen on fig. \ref{fig:cmyk}. CMY colors can be also seen on fig.
+\ref{fig:rgb} in RGB section. Black component (K) is added to CMY, because in
+print, mixing all colors doesn't result in ideal black, and it is also cheaper than using three colors. CMYK values are represented by four values, each for
+intensity of one of colors. It can be percentage, 0-1 number, or 0-255 number.
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.4\textwidth]{img/CMYK.png}
+	\caption{CMYK} 
+	\label{fig:cmyk}
+\end{figure}
+
 \subsubsection{Conversion from RGB}
-Conversion from 0-255 RGB values can be done by formula:
+Conversion from 0-255 RGB values to 0-1 CMYK can be done by formula:
 \begin{equation}
 \begin{split}
 (R', G', B') &= (R, G, B)/255 \\
@@ -137,7 +180,7 @@ Y&=(1-B'-K)/(1-K)
 \end{split}
 \end{equation}
 \subsubsection{Conversion to RGB}
-Conversion to 0-255 RGB values can be done by formula:
+Conversion to 0-255 RGB values from 0-1 CMYK can be done by formula:
 \begin{equation}
 \begin{split}
 R&=255*(1-C)*(1-K)\\
@@ -183,7 +226,7 @@ Another tab, HSV Picker, lets the user choose a color using a two dimensional re
 	\centering
 	\includegraphics[width=0.5\textwidth]{img/hsvpick.png} 
 	\caption{Picking color from HSV cone}
-	\label{fig:hsv}
+	\label{fig:hsv_pick}
 \end{figure}
 
 Next tab, called RGB picker, consists of three sliders with a colourful strip under each one. Each slider represents the value of red, green or blue part of the RGB color scheme respectively. Each strip represents the colors that are available when changing just the value of the connected slider. Each change in the sliders will update conversion panel with the selected color. Additionally each change in the conversion panel will change the picked in this component.
@@ -192,7 +235,7 @@ Next tab, called RGB picker, consists of three sliders with a colourful strip un
 	\centering
 	\includegraphics[width=0.7\textwidth]{img/rgbpick.png} 
 	\caption{Picking color from RGB sliders}
-	\label{fig:rgb}
+	\label{fig:rgb_slider}
 \end{figure}
 
 \end{document}
