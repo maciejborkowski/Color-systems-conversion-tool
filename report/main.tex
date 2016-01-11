@@ -23,7 +23,7 @@
 \maketitle
 
 \section{Subject of project}
-Goal of project was to create simple tool/application, main functionality of
+The goal of project was to create simple tool/application, main functionality of
 which will be conversion between few, listed later, color systems. Program
 should allow user to input value in one of systems, and should return result in
 the rest of implemented systems. There are also two additional functionalities:
@@ -244,6 +244,11 @@ Some examples for conversion between 0-255 RGB and CMYK:
   \item $(0, 255, 255) \Leftrightarrow (1, 0, 0, 0)$.
 \end{itemize}
 
+\section{Used technologies}
+Project was written in pure Java 8 using only build-in datatypes and functions, including Java's standard GUI library Swing using integrated development environment Eclipse Mars.
+The conversion algorithms were written by us, with implementation similar to build-in ones and checked for correctess with our owrn Java standard testing framework JUnit.
+Git and trello were used to help in management of the project.
+
 \clearpage
 \section{Application Functionality}
 The application provides user with an intuitive graphical interface. On the left
@@ -298,12 +303,6 @@ each change in the conversion panel will change the picked in this component.
 	\caption{Picking color from RGB sliders}
 	\label{fig:rgb_slider}
 \end{figure}
-
-%\section{Used technologies}
-% TODO Maciek
-% napisz, ze m.in. Java, i ze algorytmy konwersji w niej wygladaja prawie
-% identycznie
-% cos o implementacji? ze klasa konwertera i metody statyczne?
 
 % TODO Conclusions - potrzebujemy?
 \end{document}
